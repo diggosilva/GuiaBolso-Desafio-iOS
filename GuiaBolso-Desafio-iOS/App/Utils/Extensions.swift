@@ -5,4 +5,17 @@
 //  Created by Diggo Silva on 22/01/25.
 //
 
-import Foundation
+import UIKit
+import SDWebImage
+
+extension UIImageView {
+    static let chuckNorrisImageUrl = "https://api.chucknorris.io/img/chucknorris_logo_coloured_small@2x.png"
+    
+    func setChuckNorrisImage() {
+        guard let url = URL(string: UIImageView.chuckNorrisImageUrl) else {
+            print("URL inválida")
+            return
+        }
+        self.sd_setImage(with: url)
+    }
+}
