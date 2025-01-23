@@ -1,12 +1,36 @@
+//
+//  FeedView.swift
+//  GuiaBolso-Desafio-iOS
+//
+//  Created by Diggo Silva on 22/01/25.
+//
+
 import UIKit
 
 class FeedView: UIView {
     weak var viewController: UIViewController?
     
+    lazy var spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        return spinner
+    }()
+    
+    lazy var loadingLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.text = "Carregando..."
+        lbl.textColor = .gray
+        lbl.font = .preferredFont(forTextStyle: .subheadline)
+        
+        return lbl
+    }()
+    
     lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tv.register(FeedCell.self, forCellReuseIdentifier: FeedCell.identifier)
         return tv
     }()
     
@@ -28,7 +52,7 @@ class FeedView: UIView {
         } else {
             backgroundColor = .white
         }
-        addSubview(tableView)
+        addSubviews([tableView, spinner, loadingLabel])
     }
     
     private func setConstraints() {
@@ -37,16 +61,27 @@ class FeedView: UIView {
                 tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
                 tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+                tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                
+                spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
+                spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
+                
+                loadingLabel.centerXAnchor.constraint(equalTo: spinner.centerXAnchor),
+                loadingLabel.topAnchor.constraint(equalTo: spinner.bottomAnchor, constant: 10),
             ])
         } else {
             guard let vc = viewController else { return }
-            
             NSLayoutConstraint.activate([
                 tableView.topAnchor.constraint(equalTo: vc.topLayoutGuide.bottomAnchor),
                 tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+                tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                
+                spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
+                spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
+                
+                loadingLabel.centerXAnchor.constraint(equalTo: spinner.centerXAnchor),
+                loadingLabel.topAnchor.constraint(equalTo: spinner.bottomAnchor, constant: 10),
             ])
         }
     }
