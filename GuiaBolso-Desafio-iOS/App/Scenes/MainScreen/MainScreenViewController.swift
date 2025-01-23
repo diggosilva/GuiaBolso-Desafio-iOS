@@ -31,8 +31,8 @@ class MainScreenViewController: UIViewController {
     }
     
     @objc private func imageTapped() {
-        //Ir para tela de Feed - Lista de Categorias
-        print("Tocou na logo..")
+        let feedVC = FeedViewController()
+        navigationController?.pushViewController(feedVC, animated: true)
     }
     
     private func startAnimateLogo() {
@@ -61,7 +61,7 @@ class MainScreenViewController: UIViewController {
     }
     
     private func setHierarchy() {
-        view.backgroundColor = .systemOrange
+        view.backgroundColor = .white
         view.addSubview(logoImage)
     }
     
