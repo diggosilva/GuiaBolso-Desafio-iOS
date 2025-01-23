@@ -19,3 +19,9 @@ extension UIImageView {
         self.sd_setImage(with: url)
     }
 }
+
+extension UIView {
+    func addSubviews(_ views: [UIView]) {
+        views.forEach({ addSubview($0) })
+    }
+}
