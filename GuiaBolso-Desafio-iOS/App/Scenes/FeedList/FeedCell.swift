@@ -13,6 +13,7 @@ class FeedCell: UITableViewCell {
     lazy var categoryLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textColor = .black
         return lbl
     }()
     
@@ -28,12 +29,13 @@ class FeedCell: UITableViewCell {
         setConstraints()
     }
     
-    func configure(model: Model) {
+    func configure(model: CategoryModel) {
         categoryLabel.text = model.category.capitalized
         self.accessoryType = .disclosureIndicator
     }
     
     private func setHierarchy() {
+        backgroundColor = .white
         addSubview(categoryLabel)
     }
     

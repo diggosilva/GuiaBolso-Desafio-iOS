@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FeedFeedViewControllerStates {
+enum FeedViewControllerStates {
     case loading
     case loaded
     case error
@@ -15,21 +15,25 @@ enum FeedFeedViewControllerStates {
 
 protocol FeedViewModelProtocol {
     func numberOfRowsInSection() -> Int
-    func cellForRowAt(indexPath: IndexPath) -> Model
+    func cellForRowAt(indexPath: IndexPath) -> CategoryModel
     func loadCategories()
-    var state: Bindable<FeedFeedViewControllerStates> { get }
+    var state: Bindable<FeedViewControllerStates> { get }
 }
 
 class FeedViewModel {
-    private(set) var state: Bindable<FeedFeedViewControllerStates> = Bindable(value: .loading)
-    var categories: [Model] = []
+    private(set) var state: Bindable<FeedViewControllerStates> = Bindable(value: .loading)
+    var categories: [CategoryModel] = []
     private let service: ServiceProtocol = Service()
     
     func numberOfRowsInSection() -> Int {
         categories.count
     }
     
-    func cellForRowAt(indexPath: IndexPath) -> Model {
+    func cellForRowAt(indexPath: IndexPath) -> CategoryModel {
+        return categories[indexPath.row]
+    }
+    
+    func didSelectRowAt(indexPath: IndexPath) -> CategoryModel {
         return categories[indexPath.row]
     }
     
@@ -39,7 +43,6 @@ class FeedViewModel {
             self.categories.append(contentsOf: categories)
             self.state.value = .loaded
         } onError: { error in
-            print("Erro no serviço: \(error.localizedDescription)")
             self.state.value = .error
         }
     }
