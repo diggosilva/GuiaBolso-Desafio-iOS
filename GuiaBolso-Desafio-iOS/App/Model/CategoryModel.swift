@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Model: Codable, CustomStringConvertible {
+class CategoryModel: Codable, CustomStringConvertible {
     let category: String
     
     init(category: String) {
