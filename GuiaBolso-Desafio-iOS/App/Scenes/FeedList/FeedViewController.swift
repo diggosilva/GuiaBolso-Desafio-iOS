@@ -64,6 +64,7 @@ class FeedViewController: UIViewController {
     private func setNavBar() {
         title = "Categories"
         navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
     }
     
     private func setDelegatesAndDataSources() {
@@ -85,5 +86,9 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let categorySelected = viewModel.didSelectRowAt(indexPath: indexPath).category
+        let jokeVC = JokeViewController(categoty: categorySelected)
+        jokeVC.title = categorySelected.capitalized
+        navigationController?.pushViewController(jokeVC, animated: true)
     }
 }
