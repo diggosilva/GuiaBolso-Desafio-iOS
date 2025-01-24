@@ -8,22 +8,24 @@
 import UIKit
 
 class MainScreenViewController: UIViewController {
+    weak var timer: Timer?
+    
     lazy var logoImage: UIImageView = {
-         let img = UIImageView()
-         img.translatesAutoresizingMaskIntoConstraints = false
-         img.setChuckNorrisImage()
-         img.contentMode = .scaleAspectFit
-         img.layer.shadowColor = UIColor.black.cgColor
-         img.layer.shadowOffset = CGSize(width: 5, height: 5)
-         img.layer.shadowOpacity = 0.75
-         img.layer.shadowRadius = 5.0
-         img.isUserInteractionEnabled = true
-         
-         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-         img.addGestureRecognizer(tapGesture)
-         return img
-     }()
-
+        let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        img.setChuckNorrisImage()
+        img.contentMode = .scaleAspectFit
+        img.layer.shadowColor = UIColor.black.cgColor
+        img.layer.shadowOffset = CGSize(width: 5, height: 5)
+        img.layer.shadowOpacity = 0.75
+        img.layer.shadowRadius = 5.0
+        img.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        img.addGestureRecognizer(tapGesture)
+        return img
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -31,12 +33,13 @@ class MainScreenViewController: UIViewController {
     }
     
     @objc private func imageTapped() {
+        timer?.invalidate()
         let feedVC = FeedViewController()
         navigationController?.pushViewController(feedVC, animated: true)
     }
     
     private func startAnimateLogo() {
-        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
             self?.animateLogo(duration: 0.1, rotationAngle: 0.05)
         }
     }
