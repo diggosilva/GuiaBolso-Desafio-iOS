@@ -10,10 +10,19 @@ import UIKit
 class FeedView: UIView {
     weak var viewController: UIViewController?
     
+    lazy var tableView: UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.register(FeedCell.self, forCellReuseIdentifier: FeedCell.identifier)
+        tv.backgroundColor = .white
+        return tv
+    }()
+    
     lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.startAnimating()
+        spinner.color = .gray
         return spinner
     }()
     
@@ -23,15 +32,7 @@ class FeedView: UIView {
         lbl.text = "Carregando..."
         lbl.textColor = .gray
         lbl.font = .preferredFont(forTextStyle: .subheadline)
-        
         return lbl
-    }()
-    
-    lazy var tableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(FeedCell.self, forCellReuseIdentifier: FeedCell.identifier)
-        return tv
     }()
     
     override init(frame: CGRect) {
@@ -47,42 +48,30 @@ class FeedView: UIView {
     }
     
     private func setHierarchy() {
-        if #available(iOS 13.0, *) {
-            backgroundColor = .systemBackground
-        } else {
-            backgroundColor = .white
-        }
+        backgroundColor = .white
         addSubviews([tableView, spinner, loadingLabel])
     }
     
     private func setConstraints() {
+        let tableViewTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>
+        
         if #available(iOS 11.0, *) {
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                
-                spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
-                spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
-                
-                loadingLabel.centerXAnchor.constraint(equalTo: spinner.centerXAnchor),
-                loadingLabel.topAnchor.constraint(equalTo: spinner.bottomAnchor, constant: 10),
-            ])
+            tableViewTopAnchor = safeAreaLayoutGuide.topAnchor
         } else {
             guard let vc = viewController else { return }
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: vc.topLayoutGuide.bottomAnchor),
-                tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                
-                spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
-                spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
-                
-                loadingLabel.centerXAnchor.constraint(equalTo: spinner.centerXAnchor),
-                loadingLabel.topAnchor.constraint(equalTo: spinner.bottomAnchor, constant: 10),
-            ])
+            tableViewTopAnchor = vc.topLayoutGuide.topAnchor
         }
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: tableViewTopAnchor),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            loadingLabel.centerXAnchor.constraint(equalTo: spinner.centerXAnchor),
+            loadingLabel.topAnchor.constraint(equalTo: spinner.bottomAnchor, constant: 10),
+        ])
     }
 }
