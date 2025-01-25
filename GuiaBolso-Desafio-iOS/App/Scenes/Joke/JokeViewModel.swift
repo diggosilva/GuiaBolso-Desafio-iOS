@@ -13,18 +13,26 @@ enum JokeViewControllerStates {
     case error
 }
 
-class JokeViewModel {
-    var state: Bindable<JokeViewControllerStates> = Bindable(value: .loading)
+protocol JokeViewModelProtocol {
+    func loadJoke()
+    var state: Bindable<JokeViewControllerStates> { get }
+}
+
+class JokeViewModel: JokeViewModelProtocol {
+    private(set) var state: Bindable<JokeViewControllerStates> = Bindable(value: .loading)
     var service: ServiceProtocol = Service()
-    let category: String
+    private let category: String
     
-    init(category: String) {
+    init(category: String, serviceProtocol: ServiceProtocol = Service()) {
         self.category = category
+        self.service = serviceProtocol
     }
     
     func loadJoke() {
-        state.value = .loading
-        service.getJoke(category: category) { joke in
+        let apiEnv = ApiEnvironment()
+        guard let apiUrlBase = apiEnv.apiUrlBase else { return state.value = .error }
+        
+        service.getJoke(from: apiUrlBase, category: category) { joke in
             self.state.value = .loaded(joke)
         } onError: { erro in
             self.state.value = .error

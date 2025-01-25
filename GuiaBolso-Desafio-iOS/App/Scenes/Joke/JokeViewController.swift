@@ -12,8 +12,8 @@ class JokeViewController: UIViewController {
     let jokeView = JokeView()
     let viewModel: JokeViewModel
     
-    init(categoty: String) {
-        self.viewModel = JokeViewModel(category: categoty)
+    init(category: String) {
+        self.viewModel = JokeViewModel(category: category)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,8 +58,8 @@ class JokeViewController: UIViewController {
     private func showErrorState() {
         let alert = UIAlertController(title: "Acredite se quiser!", message: "Chuck Norris está com problemas. 🤣", preferredStyle: .alert)
         let ok = UIAlertAction(title: "Entendi", style: .default) { action in
-            self.jokeView.bgJoke.isHidden = true
-            self.jokeView.fgJoke.isHidden = true
+            self.jokeView.bgCard.isHidden = true
+            self.jokeView.fgCard.isHidden = true
             self.jokeView.spinner.stopAnimating()
             self.jokeView.loadingLabel.text = "Tente mais tarde! 🥲"
         }

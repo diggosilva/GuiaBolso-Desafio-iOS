@@ -80,15 +80,15 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else { return UITableViewCell() }
-        cell.configure(model: viewModel.cellForRowAt(indexPath: indexPath))
+        cell.configure(model: viewModel.getCategory(at: indexPath))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let categorySelected = viewModel.didSelectRowAt(indexPath: indexPath).category
-        let jokeVC = JokeViewController(categoty: categorySelected)
-        jokeVC.title = categorySelected.capitalized
+        let selectedCategory = viewModel.getCategory(at: indexPath).category
+        let jokeVC = JokeViewController(category: selectedCategory)
+        jokeVC.title = selectedCategory.capitalized
         navigationController?.pushViewController(jokeVC, animated: true)
     }
 }

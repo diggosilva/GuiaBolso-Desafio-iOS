@@ -14,11 +14,8 @@ class MainScreenViewController: UIViewController {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.setChuckNorrisImage()
+        img.applyShadow(view: img)
         img.contentMode = .scaleAspectFit
-        img.layer.shadowColor = UIColor.black.cgColor
-        img.layer.shadowOffset = CGSize(width: 5, height: 5)
-        img.layer.shadowOpacity = 0.75
-        img.layer.shadowRadius = 5.0
         img.isUserInteractionEnabled = true
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
