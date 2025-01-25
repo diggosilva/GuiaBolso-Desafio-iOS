@@ -8,23 +8,17 @@
 import Foundation
 
 protocol ServiceProtocol {
-    func getCategoriesList(onSuccess: @escaping([CategoryModel]) -> Void, onError: @escaping(Error) -> Void)
-    func getJoke(category: String, onSuccess: @escaping(JokeModel) -> Void, onError: @escaping(Error) -> Void)
+    func getCategoriesList(from url: String, onSuccess: @escaping([CategoryModel]) -> Void, onError: @escaping(Error) -> Void)
+    func getJoke(from url: String, category: String, onSuccess: @escaping(JokeModel) -> Void, onError: @escaping(Error) -> Void)
 }
 
 class Service: ServiceProtocol {
     var dataTask: URLSessionDataTask?
-    let apiUrl = "https://api.chucknorris.io/jokes/categories"
-    let apiUrlBase = "https://api.chucknorris.io/jokes/random?category"
     
-    func getCategoriesList(onSuccess: @escaping([CategoryModel]) -> Void, onError: @escaping(Error) -> Void) {
-        guard let url = URL(string: apiUrl) else { return }
+    func getCategoriesList(from url: String, onSuccess: @escaping([CategoryModel]) -> Void, onError: @escaping(Error) -> Void) {
+        guard let url = URL(string: url) else { return }
         
         dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-            if let response = response as? HTTPURLResponse {
-                print("DEBUG: StatusCode.. \(response.statusCode)")
-            }
-            
             DispatchQueue.main.async {
                 do {
                     let response = try JSONDecoder().decode([String].self, from: data ?? Data())
@@ -44,14 +38,10 @@ class Service: ServiceProtocol {
         dataTask?.resume()
     }
     
-    func getJoke(category: String, onSuccess: @escaping(JokeModel) -> Void, onError: @escaping(Error) -> Void) {
-        guard let url = URL(string: "\(apiUrlBase)=\(category)") else { return }
+    func getJoke(from url: String, category: String, onSuccess: @escaping(JokeModel) -> Void, onError: @escaping(Error) -> Void) {
+        guard let url = URL(string: "\(url)=\(category)") else { return }
         
         dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-            if let response = response as? HTTPURLResponse {
-                print("DEBUG: StatusCode.. \(response.statusCode)")
-            }
-            
             DispatchQueue.main.async {
                 do {
                     let response = try JSONDecoder().decode(JokeResponse.self, from: data ?? Data())

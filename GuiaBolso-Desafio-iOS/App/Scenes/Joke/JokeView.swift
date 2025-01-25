@@ -11,7 +11,7 @@ import SDWebImage
 class JokeView: UIView {
     weak var viewController: UIViewController?
     
-    lazy var bgJoke: UIView = {
+    lazy var bgCard: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.applyShadow(view: view)
@@ -20,7 +20,7 @@ class JokeView: UIView {
         return view
     }()
     
-    lazy var fgJoke: UIView = {
+    lazy var fgCard: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray.withAlphaComponent(0.5)
@@ -101,8 +101,8 @@ class JokeView: UIView {
     
     func setAlphaView(duration: CGFloat = 0, alpha: CGFloat) {
         UIView.animate(withDuration: duration) {
-            self.bgJoke.alpha = alpha
-            self.fgJoke.alpha = alpha
+            self.bgCard.alpha = alpha
+            self.fgCard.alpha = alpha
             self.iconImage.alpha = alpha
             self.jokeLabel.alpha = alpha
             self.linkButton.alpha = alpha
@@ -116,38 +116,38 @@ class JokeView: UIView {
     
     private func setHierarchy() {
         backgroundColor = .white
-        addSubviews([bgJoke, fgJoke, iconImage, jokeLabel, linkButton, spinner, loadingLabel])
+        addSubviews([bgCard, fgCard, iconImage, jokeLabel, linkButton, spinner, loadingLabel])
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            bgJoke.centerXAnchor.constraint(equalTo: centerXAnchor),
-            bgJoke.centerYAnchor.constraint(equalTo: centerYAnchor),
-            bgJoke.widthAnchor.constraint(equalToConstant: 300),
-            bgJoke.heightAnchor.constraint(equalToConstant: 400),
+            bgCard.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bgCard.centerYAnchor.constraint(equalTo: centerYAnchor),
+            bgCard.widthAnchor.constraint(equalToConstant: 300),
+            bgCard.heightAnchor.constraint(equalToConstant: 400),
             
-            fgJoke.topAnchor.constraint(equalTo: bgJoke.topAnchor, constant: 20),
-            fgJoke.centerXAnchor.constraint(equalTo: centerXAnchor),
-            fgJoke.leadingAnchor.constraint(equalTo: bgJoke.leadingAnchor, constant: 20),
-            fgJoke.trailingAnchor.constraint(equalTo: bgJoke.trailingAnchor, constant: -20),
-            fgJoke.heightAnchor.constraint(equalToConstant: 300),
+            fgCard.topAnchor.constraint(equalTo: bgCard.topAnchor, constant: 20),
+            fgCard.centerXAnchor.constraint(equalTo: centerXAnchor),
+            fgCard.leadingAnchor.constraint(equalTo: bgCard.leadingAnchor, constant: 20),
+            fgCard.trailingAnchor.constraint(equalTo: bgCard.trailingAnchor, constant: -20),
+            fgCard.heightAnchor.constraint(equalToConstant: 300),
             
-            iconImage.topAnchor.constraint(equalTo: fgJoke.topAnchor, constant: 10),
-            iconImage.centerXAnchor.constraint(equalTo: fgJoke.centerXAnchor),
+            iconImage.topAnchor.constraint(equalTo: fgCard.topAnchor, constant: 10),
+            iconImage.centerXAnchor.constraint(equalTo: fgCard.centerXAnchor),
             iconImage.widthAnchor.constraint(equalToConstant: 60),
             iconImage.heightAnchor.constraint(equalToConstant: 60),
             
             jokeLabel.centerXAnchor.constraint(equalTo: iconImage.centerXAnchor),
             jokeLabel.topAnchor.constraint(equalTo: iconImage.bottomAnchor),
-            jokeLabel.leadingAnchor.constraint(equalTo: fgJoke.leadingAnchor, constant: 20),
-            jokeLabel.trailingAnchor.constraint(equalTo: fgJoke.trailingAnchor, constant: -20),
-            jokeLabel.bottomAnchor.constraint(equalTo: fgJoke.bottomAnchor, constant: -20),
+            jokeLabel.leadingAnchor.constraint(equalTo: fgCard.leadingAnchor, constant: 20),
+            jokeLabel.trailingAnchor.constraint(equalTo: fgCard.trailingAnchor, constant: -20),
+            jokeLabel.bottomAnchor.constraint(equalTo: fgCard.bottomAnchor, constant: -20),
             
-            linkButton.centerXAnchor.constraint(equalTo: bgJoke.centerXAnchor),
-            linkButton.topAnchor.constraint(equalTo: fgJoke.bottomAnchor, constant: 10),
-            linkButton.leadingAnchor.constraint(equalTo: bgJoke.leadingAnchor, constant: 20),
-            linkButton.trailingAnchor.constraint(equalTo: bgJoke.trailingAnchor, constant: -20),
-            linkButton.bottomAnchor.constraint(equalTo: bgJoke.bottomAnchor, constant: -20),
+            linkButton.centerXAnchor.constraint(equalTo: bgCard.centerXAnchor),
+            linkButton.topAnchor.constraint(equalTo: fgCard.bottomAnchor, constant: 10),
+            linkButton.leadingAnchor.constraint(equalTo: bgCard.leadingAnchor, constant: 20),
+            linkButton.trailingAnchor.constraint(equalTo: bgCard.trailingAnchor, constant: -20),
+            linkButton.bottomAnchor.constraint(equalTo: bgCard.bottomAnchor, constant: -20),
             
             spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
