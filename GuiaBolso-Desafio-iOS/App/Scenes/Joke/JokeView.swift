@@ -77,6 +77,8 @@ class JokeView: UIView {
         return lbl
     }()
     
+    var categoryForLinkButton: String = ""
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -86,10 +88,11 @@ class JokeView: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     func configure(model: JokeModel) {
+        guard let apiEnv = ApiEnvironment().apiUrlBase else { return }
         guard let url = URL(string: model.iconUrl) else { return }
         iconImage.sd_setImage(with: url)
         jokeLabel.text = model.value
-        linkButton.setTitle(model.url, for: .normal)
+        linkButton.setTitle("\(apiEnv)=\(categoryForLinkButton)", for: .normal)
     }
     
     @objc func goToJokeTapped() {

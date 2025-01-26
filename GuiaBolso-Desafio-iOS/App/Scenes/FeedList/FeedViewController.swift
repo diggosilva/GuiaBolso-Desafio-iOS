@@ -89,6 +89,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let selectedCategory = viewModel.getCategory(at: indexPath).category
         let jokeVC = JokeViewController(category: selectedCategory)
         jokeVC.title = selectedCategory.capitalized
+        jokeVC.jokeView.categoryForLinkButton = selectedCategory
         navigationController?.pushViewController(jokeVC, animated: true)
     }
 }
