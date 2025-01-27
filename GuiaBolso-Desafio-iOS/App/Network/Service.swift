@@ -13,12 +13,10 @@ protocol ServiceProtocol {
 }
 
 class Service: ServiceProtocol {
-    var dataTask: URLSessionDataTask?
-    
     func getCategoriesList(from url: String, onSuccess: @escaping([CategoryModel]) -> Void, onError: @escaping(Error) -> Void) {
         guard let url = URL(string: url) else { return }
         
-        dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             DispatchQueue.main.async {
                 do {
                     let response = try JSONDecoder().decode([String].self, from: data ?? Data())
@@ -35,13 +33,13 @@ class Service: ServiceProtocol {
                 }
             }
         })
-        dataTask?.resume()
+        .resume()
     }
     
     func getJoke(from url: String, category: String, onSuccess: @escaping(JokeModel) -> Void, onError: @escaping(Error) -> Void) {
         guard let url = URL(string: "\(url)=\(category)") else { return }
         
-        dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+        URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
             DispatchQueue.main.async {
                 do {
                     let response = try JSONDecoder().decode(JokeResponse.self, from: data ?? Data())
@@ -53,6 +51,6 @@ class Service: ServiceProtocol {
                 }
             }
         })
-        dataTask?.resume()
+        .resume()
     }
 }
