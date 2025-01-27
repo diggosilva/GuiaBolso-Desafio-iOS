@@ -26,7 +26,8 @@ class FeedViewController: UIViewController {
     }
     
     private func handleStates() {
-        viewModel.state.bind { state in
+        viewModel.state.bind { [weak self] state in
+            guard let self = self else { return }
             switch state {
             case .loading: return self.showLoadingState()
             case .loaded: return self.showLoadedState()
@@ -48,13 +49,13 @@ class FeedViewController: UIViewController {
     
     private func showErrorState() {
         let alert = UIAlertController(title: "Ops... Algo deu errado!", message: "Tentar novamente?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "Sim", style: .default) { action in
-            self.viewModel.loadCategories()
+        let ok = UIAlertAction(title: "Sim", style: .default) { [weak self] action in
+            self?.viewModel.loadCategories()
         }
         
-        let nok = UIAlertAction(title: "Não", style: .default) { action in
-            self.feedView.spinner.stopAnimating()
-            self.feedView.loadingLabel.text = "Desculpe, tente mais tarde!"
+        let nok = UIAlertAction(title: "Não", style: .cancel) { [weak self] action in
+            self?.feedView.spinner.stopAnimating()
+            self?.feedView.loadingLabel.text = "Desculpe, tente mais tarde!"
         }
         alert.addAction(ok)
         alert.addAction(nok)
