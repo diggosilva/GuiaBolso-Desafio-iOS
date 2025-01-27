@@ -41,10 +41,12 @@ class FeedViewModel: FeedViewModelProtocol {
         let apiEnv = ApiEnvironment()
         guard let apiUrl = apiEnv.apiUrl else { return state.value = .error }
          
-        service.getCategoriesList(from: apiUrl) { categories in
+        service.getCategoriesList(from: apiUrl) { [weak self] categories in
+            guard let self = self else { return }
             self.categories.append(contentsOf: categories)
             self.state.value = .loaded
-        } onError: { error in
+        } onError: { [weak self] error in
+            guard let self = self else { return }
             self.state.value = .error
         }
     }

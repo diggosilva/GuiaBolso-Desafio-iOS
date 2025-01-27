@@ -32,9 +32,11 @@ class JokeViewModel: JokeViewModelProtocol {
         let apiEnv = ApiEnvironment()
         guard let apiUrlBase = apiEnv.apiUrlBase else { return state.value = .error }
         
-        service.getJoke(from: apiUrlBase, category: category) { joke in
+        service.getJoke(from: apiUrlBase, category: category) { [weak self] joke in
+            guard let self = self else { return }
             self.state.value = .loaded(joke)
-        } onError: { erro in
+        } onError: { [weak self] erro in
+            guard let self = self else { return }
             self.state.value = .error
         }
     }
