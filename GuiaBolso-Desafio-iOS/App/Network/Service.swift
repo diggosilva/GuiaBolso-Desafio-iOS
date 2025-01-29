@@ -32,8 +32,7 @@ class Service: ServiceProtocol {
                     print("DEBUG: Erro ao decodificar lista de Categorias.. \(error.localizedDescription)")
                 }
             }
-        })
-        .resume()
+        }).resume()
     }
     
     func getJoke(from url: String, category: String, onSuccess: @escaping(JokeModel) -> Void, onError: @escaping(Error) -> Void) {
@@ -50,7 +49,6 @@ class Service: ServiceProtocol {
                     print("DEBUG: Erro ao decodificar piada.. \(error.localizedDescription)")
                 }
             }
-        })
-        .resume()
+        }).resume()
     }
 }
