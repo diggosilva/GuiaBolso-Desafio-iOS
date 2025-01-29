@@ -27,9 +27,11 @@ Aplicativo GuiaBolso-Desafio-iOS escrito em Swift. App desenvolvido para o desaf
 ## Features
 
 - View Code (UIKit)
+- MVVM
 - Table View
 - Elementos customizados
 - Animações
+- Testes
 
 ## Requirements
 
